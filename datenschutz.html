@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Datenschutz · Fleißbienchen</title>
+<meta name="description" content="Datenschutzerklärung der iOS-App Fleißbienchen.">
+<style>
+  /* Bewusst ohne externe Schriften oder Skripte: die Seite selbst lädt nichts von Dritten. */
+  :root {
+    --paper: #FFF9F3; --card: #FFFFFF; --ink: #2B1A3A; --muted: #6D5E7B; --line: #EEE2EF;
+    --honey: #FFC93C; --honey-ink: #8A5B00; --lilac: #6A55E6; --lilac-soft: #ECE8FF;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #1A1322; --card: #241B2E; --ink: #F5EEF9; --muted: #B6A8C3; --line: #3A2E47;
+      --honey: #FFD050; --honey-ink: #FFD978; --lilac: #A99BFF; --lilac-soft: #2F2850;
+      color-scheme: dark;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font: 17px/1.6 ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    padding: max(32px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) 64px max(16px, env(safe-area-inset-left));
+  }
+  main { max-width: 680px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px; }
+  header { display: flex; gap: 16px; align-items: center; }
+  header svg { width: 64px; height: 64px; flex: none; filter: drop-shadow(0 2px 4px rgba(43,26,58,.2)); }
+  h1 { font-size: 2rem; line-height: 1.15; margin: 0; text-wrap: balance; }
+  h2 { font-size: 1.2rem; margin: 0 0 6px; }
+  p, ul { margin: 0; }
+  ul { padding-left: 1.2em; display: grid; gap: 4px; }
+  section { display: grid; gap: 8px; }
+  .meta { color: var(--muted); font-size: .92rem; margin-top: 2px; }
+  .summary { background: var(--lilac-soft); border-radius: 18px; padding: 18px 20px; display: grid; gap: 8px; }
+  .summary b { color: var(--lilac); }
+  .note { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 16px; font-size: .95rem; }
+  a { color: var(--lilac); text-underline-offset: 3px; overflow-wrap: anywhere; }
+  a:focus-visible { outline: 3px solid var(--lilac); outline-offset: 2px; border-radius: 4px; }
+  .num { color: var(--honey-ink); font-weight: 800; margin-right: 6px; }
+  footer { color: var(--muted); font-size: .88rem; border-top: 1px solid var(--line); padding-top: 16px; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <svg viewBox="0 0 112 112" aria-hidden="true">
+      <g transform="translate(6 6)">
+        <g fill="#fff" stroke="#fff" stroke-width="12" stroke-linejoin="round" stroke-linecap="round">
+          <ellipse cx="42" cy="35" rx="13" ry="17" transform="rotate(-20 42 35)"/>
+          <ellipse cx="61" cy="33" rx="12" ry="16" transform="rotate(15 61 33)"/>
+          <ellipse cx="52" cy="60" rx="30" ry="22"/>
+          <path d="M24 58 L10 62 L24 66 Z"/>
+          <path d="M72 41 Q76 29 84 27" fill="none" stroke-width="15"/>
+        </g>
+        <ellipse cx="42" cy="35" rx="13" ry="17" transform="rotate(-20 42 35)" fill="#EAF6FF" stroke="#2B1A3A" stroke-width="3"/>
+        <ellipse cx="61" cy="33" rx="12" ry="16" transform="rotate(15 61 33)" fill="#EAF6FF" stroke="#2B1A3A" stroke-width="3"/>
+        <path d="M24 58 L10 62 L24 66 Z" fill="#2B1A3A"/>
+        <clipPath id="b"><ellipse cx="52" cy="60" rx="30" ry="22"/></clipPath>
+        <ellipse cx="52" cy="60" rx="30" ry="22" fill="#FFC93C"/>
+        <g clip-path="url(#b)" fill="#2B1A3A"><rect x="36" y="30" width="8" height="60"/><rect x="52" y="30" width="8" height="60"/></g>
+        <ellipse cx="52" cy="60" rx="30" ry="22" fill="none" stroke="#2B1A3A" stroke-width="3.5"/>
+        <circle cx="71" cy="55" r="3.5" fill="#2B1A3A"/>
+        <path d="M67 66 Q72 70 77 65" stroke="#2B1A3A" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <circle cx="77" cy="62" r="3" fill="#FF7AB6" opacity=".8"/>
+        <path d="M72 41 Q76 29 84 27" stroke="#2B1A3A" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <circle cx="85" cy="27" r="3.5" fill="#2B1A3A"/>
+      </g>
+    </svg>
+    <div>
+      <h1>Datenschutz bei Fleißbienchen</h1>
+      <p class="meta">Stand: 26. Oktober 2026 · gilt für die iOS-App Fleißbienchen</p>
+    </div>
+  </header>
+
+  <div class="summary">
+    <p><b>Kurz gesagt:</b> Deine Aufgaben, Erinnerungen und Sticker bleiben auf deinem iPhone. Es gibt kein Konto, keinen eigenen Server, keine Werbung und kein Tracking.</p>
+    <p>Die einzige Verbindung ins Internet sind die Jubel-GIFs bei jeder 5. erledigten Aufgabe. Sie kommen von GIPHY und lassen sich in den Einstellungen der App abschalten.</p>
+  </div>
+
+  <section>
+    <h2><span class="num">1</span>Verantwortlich</h2>
+    <p>Lucas Konnigk-Hoch<br>
+    E-Mail: <a href="mailto:fleissbienchen@protonmail.com">fleissbienchen@protonmail.com</a></p>
+  </section>
+
+  <section>
+    <h2><span class="num">2</span>Was auf deinem iPhone gespeichert wird</h2>
+    <p>Damit die App funktioniert, speichert sie auf deinem Gerät:</p>
+    <ul>
+      <li>deine Aufgaben mit Tag, Erinnerungszeit und Erledigt-Zeitpunkt,</li>
+      <li>deine gesammelten Sticker und Power-Runden-Rekorde,</li>
+      <li>deine Einstellungen, etwa Uhrzeit des Abendrückblicks, Sound und Vibration.</li>
+    </ul>
+    <p>Diese Daten werden nicht an uns oder an Dritte übertragen. Wir haben keinen Zugriff darauf. Wenn du ein iCloud- oder Computer-Backup deines iPhones nutzt, können sie darin enthalten sein. Das richtet sich nach deinen Einstellungen bei Apple.</p>
+    <p>Löschen kannst du alles, indem du einzelne Aufgaben löschst oder die App vom iPhone entfernst.</p>
+  </section>
+
+  <section>
+    <h2><span class="num">3</span>Erinnerungen und Mitteilungen</h2>
+    <p>Erinnerungen, den Abendrückblick und das Ende einer Power-Runde plant die App direkt auf deinem iPhone über iOS. Dafür fragt sie einmal nach deiner Erlaubnis. Es gibt keinen Push-Server, und der Inhalt der Mitteilungen verlässt dein Gerät nicht über uns.</p>
+  </section>
+
+  <section>
+    <h2><span class="num">4</span>Jubel-GIFs von GIPHY</h2>
+    <p>Bei jeder 5. erledigten Aufgabe zeigt die App ein animiertes GIF. Es wird kurz vorher oder in diesem Moment von <i>media.giphy.com</i> geladen, einem Dienst der GIPHY, Inc. (USA), die zu Shutterstock gehört.</p>
+    <p>Beim Laden erhält GIPHY technisch notwendige Angaben, die bei jedem Abruf aus dem Internet anfallen: deine IP-Adresse, Datum und Uhrzeit, welches GIF abgerufen wurde, sowie allgemeine Angaben zu App, Gerätetyp und iOS-Version. Deine Aufgaben oder andere Inhalte aus der App werden nicht übertragen. Die Daten können dabei in die USA übermittelt werden.</p>
+    <p>Rechtsgrundlage ist unser berechtigtes Interesse, dir die gewünschte Belohnungs-Funktion anzuzeigen (Art. 6 Abs. 1 lit. f DSGVO). Wie GIPHY mit den Daten umgeht, steht in der <a href="https://giphy.com/privacy">Datenschutzerklärung von GIPHY</a>.</p>
+    <p class="note">Du willst das nicht? In der App unter <b>Einstellungen → Feiern → Jubel-GIFs</b> ausschalten. Dann stellt die App keine Verbindung zu GIPHY mehr her.</p>
+  </section>
+
+  <section>
+    <h2><span class="num">5</span>App Store und TestFlight</h2>
+    <p>Die App wird über Apple verteilt. Beim Laden aus dem App Store oder über TestFlight verarbeitet Apple Daten in eigener Verantwortung, siehe die <a href="https://www.apple.com/de/legal/privacy/de-ww/">Datenschutzrichtlinie von Apple</a>.</p>
+    <ul>
+      <li><b>App Store:</b> Wenn du in iOS zugestimmt hast, Analysedaten mit App-Entwicklern zu teilen, erhalten wir von Apple zusammengefasste Statistiken, etwa Installationen und Abstürze. Daraus können wir keine einzelnen Personen erkennen.</li>
+      <li><b>TestFlight:</b> Wenn wir dich per E-Mail zum Testen eingeladen haben, sehen wir deinen Namen und diese E-Mail-Adresse. Wenn du über TestFlight Feedback, Screenshots oder Absturzberichte schickst, erhalten wir diese mit Angaben zu Gerät und iOS-Version. Wir nutzen sie nur, um die App zu verbessern.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="num">6</span>Was es nicht gibt</h2>
+    <ul>
+      <li>kein Benutzerkonto und keine Anmeldung,</li>
+      <li>keine Analyse- oder Tracking-Werkzeuge, keine Werbung,</li>
+      <li>kein Verkauf und keine Weitergabe deiner Daten.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="num">7</span>Wenn du uns schreibst</h2>
+    <p>Schickst du uns eine E-Mail, nutzen wir deine Adresse und deine Nachricht nur, um dir zu antworten. Wir löschen sie, wenn das Anliegen erledigt ist und keine gesetzlichen Aufbewahrungspflichten bestehen.</p>
+  </section>
+
+  <section>
+    <h2><span class="num">8</span>Deine Rechte</h2>
+    <p>Du hast das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung, auf Datenübertragbarkeit und auf Widerspruch (Art. 15 bis 21 DSGVO). Schreib dafür einfach an die oben genannte E-Mail-Adresse. Außerdem kannst du dich bei einer Datenschutz-Aufsichtsbehörde beschweren (Art. 77 DSGVO).</p>
+    <p>Da die App-Daten nur auf deinem iPhone liegen, betrifft das bei uns vor allem E-Mails und TestFlight-Rückmeldungen.</p>
+  </section>
+
+  <section>
+    <h2><span class="num">9</span>Änderungen</h2>
+    <p>Wenn sich die App ändert, etwa durch neue Funktionen, passen wir diese Erklärung an. Es gilt die Fassung, die hier veröffentlicht ist.</p>
+  </section>
+
+  <footer>Fleißbienchen 🐝 · Kein Stress, nur Sticker.</footer>
+</main>
+</body>
+</html>
