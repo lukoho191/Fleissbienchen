@@ -2,12 +2,568 @@
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Fleißbienchen</title>
-<meta http-equiv="refresh" content="0; url=datenschutz.html">
-<link rel="canonical" href="datenschutz.html">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fleißbienchen · Die To-do-App, die dich feiert</title>
+<meta name="description" content="Fleißbienchen ist eine To-do-App fürs iPhone, gemacht für ADHS-Brains: in drei Sekunden eintragen, beim Abhaken einen Sticker kassieren, nie ein schlechtes Gewissen.">
+<meta name="theme-color" content="#FFF9F3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1A1322" media="(prefers-color-scheme: dark)">
+<!-- Sobald die App live ist: App-ID eintragen, dann zeigt Safari auf dem iPhone ein Smart-App-Banner. -->
+<!-- <meta name="apple-itunes-app" content="app-id=PLATZHALTER"> -->
+<style>
+  /* Bewusst ohne externe Schriften, Bilder oder Skripte: die Seite lädt nichts von Dritten. */
+  :root {
+    --paper: #FFF9F3; --card: #FFFFFF; --ink: #2B1A3A; --muted: #6D5E7B; --line: #EEE2EF;
+    --honey: #FFC93C; --honey-ink: #8A5B00; --honey-soft: #FFF1C9;
+    --pink: #FF5FA2; --pink-soft: #FFE3F0;
+    --lilac: #6A55E6; --lilac-soft: #ECE8FF;
+    --mint: #1F9E76; --mint-soft: #DDF6EC;
+    --frame: #2B1A3A; --screen: #FFFCF8;
+    --shadow: 0 1px 2px rgba(43,26,58,.06), 0 10px 30px rgba(43,26,58,.10);
+    --f-display: ui-rounded, "SF Pro Rounded", "Arial Rounded MT Bold", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    --f-body: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    --f-hand: "Chalkboard SE", "Marker Felt", "Comic Sans MS", "Segoe Print", cursive;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #1A1322; --card: #241B2E; --ink: #F5EEF9; --muted: #B6A8C3; --line: #3A2E47;
+      --honey: #FFD050; --honey-ink: #FFD978; --honey-soft: #3A2E17;
+      --pink: #FF7DB5; --pink-soft: #45223A;
+      --lilac: #A99BFF; --lilac-soft: #2F2850;
+      --mint: #5ED8AE; --mint-soft: #173A30;
+      --frame: #0E0913; --screen: #211829;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+      color-scheme: dark;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font: 17px/1.6 var(--f-body);
+    padding: 0 max(16px, env(safe-area-inset-right)) 0 max(16px, env(safe-area-inset-left));
+    overflow-x: hidden;
+  }
+  h1, h2, h3 { font-family: var(--f-display); line-height: 1.15; margin: 0; text-wrap: balance; }
+  h2 { font-size: clamp(1.7rem, 4.6vw, 2.4rem); font-weight: 700; letter-spacing: -.01em; }
+  h3 { font-size: 1.15rem; font-weight: 700; }
+  p { margin: 0; }
+  a { color: var(--lilac); text-underline-offset: 3px; }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--lilac); outline-offset: 3px; border-radius: 8px; }
+  .wrap { max-width: 1080px; margin: 0 auto; }
+  .narrow { max-width: 720px; margin: 0 auto; }
+  .eyebrow { font-size: .8rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--honey-ink); }
+  .lead { font-size: 1.15rem; color: var(--muted); max-width: 36em; }
+  section { padding-block: 72px 0; scroll-margin-top: 72px; }
+  .sec-head { display: grid; gap: 10px; margin-bottom: 32px; }
+  .center { text-align: center; justify-items: center; }
+  .center .lead { margin-inline: auto; }
+
+  /* Sticker */
+  .sticker { display: inline-block; width: 48px; height: 48px; flex: none;
+    filter: drop-shadow(0 0 0 #fff) drop-shadow(2px 0 0 #fff) drop-shadow(-2px 0 0 #fff) drop-shadow(0 2px 0 #fff) drop-shadow(0 -2px 0 #fff) drop-shadow(0 3px 4px rgba(43,26,58,.22)); }
+  .sticker.sm { width: 26px; height: 26px; }
+  .sticker.lg { width: 92px; height: 92px; }
+
+  /* Kopfzeile */
+  .top { position: sticky; top: 0; z-index: 10; margin: 0 calc(-1 * max(16px, env(safe-area-inset-left))); padding: max(10px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) 10px max(16px, env(safe-area-inset-left));
+    background: color-mix(in srgb, var(--paper) 86%, transparent); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid transparent; }
+  .top.scrolled { border-bottom-color: var(--line); }
+  .top-inner { max-width: 1080px; margin: 0 auto; display: flex; align-items: center; gap: 18px; }
+  .brand { display: flex; align-items: center; gap: 8px; font-family: var(--f-display); font-weight: 800; font-size: 1.15rem; color: var(--ink); text-decoration: none; }
+  .brand .sticker { width: 34px; height: 34px; }
+  .top nav { display: flex; gap: 18px; margin-left: auto; font-weight: 700; font-size: .95rem; }
+  .top nav a { color: var(--muted); text-decoration: none; }
+  .top nav a:hover { color: var(--ink); }
+  @media (max-width: 720px) { .top nav { display: none; } .top .store { margin-left: auto; } }
+
+  /* App-Store-Button (eigener Stil; das offizielle Badge kommt mit dem echten Link) */
+  .store { display: inline-flex; align-items: center; gap: 10px; background: var(--ink); color: var(--paper); text-decoration: none;
+    border-radius: 14px; padding: 9px 18px 9px 12px; line-height: 1.1; box-shadow: var(--shadow); transition: transform .15s ease; }
+  .store:hover { transform: translateY(-2px); }
+  .store .sticker { width: 30px; height: 30px; filter: none; }
+  .store small { display: block; font-size: .72rem; font-weight: 700; opacity: .8; }
+  .store b { display: block; font-family: var(--f-display); font-size: 1.2rem; font-weight: 700; letter-spacing: -.01em; }
+  .store.compact { padding: 6px 12px 6px 8px; border-radius: 11px; gap: 7px; box-shadow: none; }
+  .store.compact .sticker { width: 22px; height: 22px; }
+  .store.compact small { font-size: .62rem; }
+  .store.compact b { font-size: .95rem; }
+  @media (prefers-reduced-motion: reduce) { .store { transition: none; } .store:hover { transform: none; } }
+
+  /* Hero */
+  .hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: center; padding-block: 48px 8px; }
+  .hero h1 { font-size: clamp(2.5rem, 7.4vw, 4.4rem); font-weight: 800; letter-spacing: -.02em; }
+  .hero h1 em { font-style: normal; color: var(--pink); }
+  .hero .lead { margin-top: 18px; }
+  .cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; margin-top: 28px; }
+  .facts { display: flex; flex-wrap: wrap; gap: 6px 16px; color: var(--muted); font-size: .92rem; font-weight: 700; }
+  .facts span::before { content: "✓ "; color: var(--mint); }
+  .hero-visual { position: relative; display: grid; place-items: center; }
+  .hero-visual .float { position: absolute; }
+  .hero-visual .f1 { left: 2%; top: 6%; rotate: -14deg; }
+  .hero-visual .f2 { right: 0; top: 30%; rotate: 12deg; width: 72px; height: 72px; }
+  .hero-visual .f3 { left: 6%; bottom: 10%; rotate: -6deg; width: 60px; height: 60px; }
+  .stamp-note { position: absolute; right: 2%; bottom: 4%; font-family: var(--f-hand); font-size: 1.35rem; color: var(--lilac); rotate: -8deg; border: 3px solid var(--lilac); border-radius: 50%; padding: 8px 16px; background: var(--paper); }
+  @media (max-width: 860px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding-top: 32px; }
+    .hero-visual { order: 2; }
+  }
+  @media (max-width: 420px) { .hero-visual .f2, .stamp-note { display: none; } }
+
+  /* Telefon-Mockups */
+  .phone { position: relative; width: 100%; max-width: 290px; aspect-ratio: 9 / 18.5; border: 9px solid var(--frame); border-radius: 42px; background: var(--screen);
+    overflow: hidden; box-shadow: var(--shadow); font-size: 13px; line-height: 1.4; display: flex; flex-direction: column; gap: 10px; padding: 36px 14px 14px; text-align: left; }
+  .phone::before { content: ""; position: absolute; top: 9px; left: 50%; translate: -50% 0; width: 76px; height: 21px; background: var(--frame); border-radius: 20px; }
+  .ph-top { display: flex; justify-content: space-between; align-items: center; }
+  .ph-date { font-size: 11px; color: var(--muted); font-weight: 700; }
+  .ph-hello { font-family: var(--f-display); font-size: 22px; font-weight: 700; }
+  .counter { display: inline-flex; align-items: center; gap: 4px; background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 3px 9px 3px 4px; font-weight: 800; font-size: 12px; font-variant-numeric: tabular-nums; }
+  .counter .sticker { filter: none; }
+  .add { display: flex; align-items: center; gap: 8px; background: var(--card); border: 2px solid var(--lilac); border-radius: 14px; padding: 9px 10px; color: var(--muted); }
+  .add .typed { color: var(--ink); font-weight: 600; }
+  .add .plus { margin-left: auto; width: 24px; height: 24px; border-radius: 8px; background: var(--lilac); color: #fff; display: grid; place-items: center; font-weight: 800; flex: none; }
+  .chips { display: flex; gap: 5px; flex-wrap: wrap; }
+  .chip { font-size: 10.5px; font-weight: 700; padding: 3px 8px; border-radius: 999px; background: var(--lilac-soft); color: var(--lilac); }
+  .tasks { display: flex; flex-direction: column; gap: 6px; }
+  .task { all: unset; box-sizing: border-box; display: flex; align-items: center; gap: 9px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 9px 10px; cursor: pointer; width: 100%; }
+  .task:focus-visible { outline: 3px solid var(--lilac); outline-offset: 1px; }
+  .task .box { width: 20px; height: 20px; border-radius: 50%; border: 2.5px solid var(--honey); flex: none; display: grid; place-items: center; font-size: 11px; }
+  .task .t { flex: 1; min-width: 0; }
+  .task .sub { display: block; font-size: 10.5px; color: var(--muted); }
+  .task.done .box { background: var(--honey); }
+  .task.done .box::after { content: "✓"; color: #2B1A3A; font-weight: 800; }
+  .task.done .t { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--honey); text-decoration-thickness: 2px; }
+  .done-row { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--muted); font-weight: 700; }
+  .done-row .sticker { width: 22px; height: 22px; margin-left: -6px; }
+  .ph-cta { margin-top: auto; background: var(--ink); color: var(--paper); border-radius: 14px; padding: 11px; text-align: center; font-weight: 800; font-family: var(--f-display); font-size: 14px; }
+  .toast { position: absolute; inset: auto 12px 64px; background: var(--card); border: 2px solid var(--honey); border-radius: 16px; padding: 10px 12px; display: flex; gap: 10px; align-items: center; box-shadow: var(--shadow); font-weight: 800; font-family: var(--f-display); font-size: 15px; }
+  .toast .sticker { width: 40px; height: 40px; }
+  .toast small { display: block; font-family: var(--f-body); font-weight: 600; font-size: 11px; color: var(--muted); }
+  .toast.pop { animation: pop .45s cubic-bezier(.2,1.6,.4,1); }
+  @keyframes pop { from { transform: scale(.6) translateY(16px); opacity: 0; } to { transform: none; opacity: 1; } }
+  .try-hint { font-family: var(--f-hand); font-size: 1.1rem; color: var(--muted); text-align: center; margin-top: 12px; rotate: -2deg; }
+
+  .celebrate { align-items: center; justify-content: center; text-align: center; gap: 14px; background: radial-gradient(circle at 50% 38%, var(--pink-soft), var(--screen) 70%); }
+  .celebrate .big { width: 112px; height: 112px; rotate: -8deg; }
+  .celebrate h4 { font-family: var(--f-display); font-size: 27px; margin: 0; font-weight: 800; }
+  .celebrate .line2 { font-size: 14px; color: var(--muted); font-weight: 700; }
+  .plus1 { font-family: var(--f-hand); font-size: 21px; color: var(--honey-ink); rotate: -4deg; }
+  .confetti { position: absolute; inset: 0; pointer-events: none; }
+  .confetti i { position: absolute; width: 7px; height: 11px; border-radius: 2px; }
+  .tap { font-size: 10.5px; color: var(--muted); position: absolute; bottom: 16px; left: 0; right: 0; }
+  .timer { display: grid; place-items: center; position: relative; margin: 4px auto 0; width: 150px; height: 150px; }
+  .timer svg { position: absolute; inset: 0; rotate: -90deg; }
+  .timer .tt { font-family: var(--f-display); font-size: 34px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .timer .tl { font-size: 10.5px; color: var(--muted); font-weight: 700; margin-top: -4px; }
+  .score { display: flex; justify-content: space-between; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 8px 12px; font-weight: 800; }
+  .score span { font-size: 10.5px; color: var(--muted); font-weight: 700; display: block; }
+  .score b { font-family: var(--f-display); font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .lock { background: linear-gradient(170deg, #3B2456, #7A3E7A 60%, #D16E8E); color: #fff; }
+  .lock .clock { font-family: var(--f-display); text-align: center; font-size: 52px; font-weight: 600; line-height: 1; margin-top: 18px; }
+  .lock .ldate { text-align: center; font-size: 12px; opacity: .85; font-weight: 700; }
+  .notif { background: rgba(255,255,255,.9); color: #2B1A3A; border-radius: 16px; padding: 10px 12px; margin-top: 18px; display: flex; gap: 10px; }
+  .notif .app { width: 30px; height: 30px; border-radius: 8px; background: #FFC93C; display: grid; place-items: center; flex: none; }
+  .notif .app .sticker { width: 22px; height: 22px; filter: none; }
+  .notif b { font-size: 12px; display: flex; justify-content: space-between; gap: 8px; }
+  .notif b span { font-weight: 600; opacity: .6; }
+  .notif p { font-size: 12.5px; }
+  .book { margin-top: auto; background: rgba(255,255,255,.12); border-radius: 16px; padding: 10px; }
+  .book .bt { font-size: 11px; font-weight: 800; opacity: .9; margin-bottom: 6px; }
+  .book .row { display: flex; gap: 4px; flex-wrap: wrap; }
+  .book .sticker { width: 34px; height: 34px; }
+
+  /* Versprechen */
+  .promise { font-family: var(--f-display); font-size: clamp(1.35rem, 3.4vw, 1.9rem); font-weight: 600; line-height: 1.35; padding: 28px 30px; background: var(--lilac-soft); border-radius: 26px; text-wrap: pretty; }
+  .promise em { font-style: normal; color: var(--lilac); }
+  .nos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 14px; }
+  .no { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 16px 18px; display: grid; gap: 4px; }
+  .no b { font-family: var(--f-display); font-size: 1.05rem; }
+  .no p { color: var(--muted); font-size: .95rem; }
+  @media (max-width: 720px) { .nos { grid-template-columns: 1fr; } }
+
+  /* Funktionen */
+  .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .feat { background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 22px; display: grid; gap: 8px; align-content: start; }
+  .feat .ico { width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; font-size: 24px; margin-bottom: 4px; }
+  .feat .ico .sticker { width: 34px; height: 34px; }
+  .feat p { color: var(--muted); font-size: .97rem; }
+  .feat code { font: inherit; font-weight: 700; color: var(--ink); background: var(--lilac-soft); padding: 1px 6px; border-radius: 6px; white-space: nowrap; }
+  .i-honey { background: var(--honey-soft); } .i-pink { background: var(--pink-soft); } .i-lilac { background: var(--lilac-soft); } .i-mint { background: var(--mint-soft); }
+  @media (max-width: 900px) { .features { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .features { grid-template-columns: 1fr; } }
+
+  /* Screens */
+  .screens { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; justify-items: center; }
+  .screen-item { display: grid; gap: 14px; justify-items: center; text-align: center; max-width: 300px; }
+  .screen-cap { color: var(--muted); font-size: .95rem; }
+  .screen-cap b { display: block; color: var(--ink); font-family: var(--f-display); font-size: 1.1rem; }
+  @media (max-width: 900px) {
+    .screens { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 20px; padding: 4px 16px 16px; margin: 0 calc(-1 * max(16px, env(safe-area-inset-left))); }
+    .screen-item { flex: 0 0 min(76vw, 280px); scroll-snap-align: center; }
+  }
+
+  /* Ton */
+  .tone { display: grid; grid-template-columns: 1fr 1fr; gap: 0; background: var(--card); border: 1px solid var(--line); border-radius: 22px; overflow: hidden; }
+  .tone > div { padding: 12px 18px; border-top: 1px solid var(--line); }
+  .tone .th { border-top: 0; font-weight: 800; font-size: .8rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); background: var(--paper); }
+  .tone s { color: var(--muted); text-decoration-color: var(--muted); }
+  .tone .yes { font-weight: 700; }
+  @media (max-width: 560px) { .tone > div { padding: 10px 12px; font-size: .92rem; } }
+  .cheers { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 26px; }
+  .cheer { font-family: var(--f-hand); font-size: 1.2rem; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 5px 14px; }
+  .cheer:nth-child(3n+1) { rotate: -1.5deg; } .cheer:nth-child(3n+2) { rotate: 1.2deg; }
+  @media (max-width: 560px) { .cheers { gap: 8px; } .cheer { font-size: 1rem; padding: 4px 10px; } }
+
+  /* Reizarm + Datenschutz */
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .panel { border-radius: 26px; padding: 28px; display: grid; gap: 14px; align-content: start; }
+  .panel.calm { background: var(--mint-soft); }
+  .panel.private { background: var(--honey-soft); }
+  .panel h2 { font-size: clamp(1.4rem, 3.4vw, 1.8rem); }
+  .checklist { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+  .checklist li { padding-left: 30px; position: relative; }
+  .checklist li::before { content: "✓"; position: absolute; left: 0; top: 1px; width: 21px; height: 21px; border-radius: 50%; background: var(--mint); color: #fff; font-size: 12px; font-weight: 800; display: grid; place-items: center; }
+  .panel.private .checklist li::before { background: var(--honey); color: #2B1A3A; }
+  .panel .more { font-weight: 800; }
+  @media (max-width: 760px) { .split { grid-template-columns: 1fr; } }
+
+  /* Schluss */
+  .final { margin-top: 72px; background: var(--ink); color: var(--paper); border-radius: 32px; padding: 52px 28px; text-align: center; display: grid; justify-items: center; gap: 16px; position: relative; overflow: hidden; }
+  .final h2 { color: var(--paper); }
+  .final p { color: color-mix(in srgb, var(--paper) 78%, transparent); max-width: 30em; }
+  .final .store { background: var(--paper); color: var(--ink); margin-top: 8px; }
+  .final .stickers { display: flex; gap: 6px; }
+  .final .stickers .sticker { width: 52px; height: 52px; filter: drop-shadow(0 3px 4px rgba(0,0,0,.35)); }
+  .final .stickers .sticker:nth-child(odd) { rotate: -10deg; } .final .stickers .sticker:nth-child(even) { rotate: 8deg; }
+
+  footer { max-width: 1080px; margin: 0 auto; padding: 32px 0 max(40px, env(safe-area-inset-bottom)); display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; color: var(--muted); font-size: .92rem; }
+  footer nav { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-left: auto; }
+  footer a { color: var(--muted); font-weight: 700; }
+  footer a:hover { color: var(--ink); }
+  @media (max-width: 560px) { footer nav { margin-left: 0; } }
+
+  @media (prefers-reduced-motion: reduce) { .toast.pop { animation: none; } }
+</style>
 </head>
 <body>
-<p><a href="datenschutz.html">Zur Datenschutzerklärung von Fleißbienchen</a></p>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="g-gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF3B0"/><stop offset=".45" stop-color="#FFC93C"/><stop offset="1" stop-color="#E29A00"/></linearGradient>
+    <linearGradient id="g-glitter" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFD6F0"/><stop offset=".5" stop-color="#B9A6FF"/><stop offset="1" stop-color="#7FE0C1"/></linearGradient>
+    <clipPath id="bee-clip"><ellipse cx="52" cy="60" rx="30" ry="22"/></clipPath>
+  </defs>
+  <symbol id="s-star" viewBox="0 0 100 100">
+    <polygon points="50,6 62,38 96,39 69,60 79,93 50,74 21,93 31,60 4,39 38,38" fill="url(#g-gold)" stroke="#C98500" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="40" cy="36" rx="8" ry="4" fill="#fff" opacity=".75" transform="rotate(-30 40 36)"/>
+  </symbol>
+  <symbol id="s-glitter" viewBox="0 0 100 100">
+    <polygon points="50,6 62,38 96,39 69,60 79,93 50,74 21,93 31,60 4,39 38,38" fill="url(#g-glitter)" stroke="#7A66F2" stroke-width="3" stroke-linejoin="round"/>
+    <circle cx="38" cy="44" r="3" fill="#fff"/><circle cx="58" cy="58" r="2.4" fill="#fff"/><circle cx="50" cy="32" r="2" fill="#fff"/><circle cx="64" cy="44" r="1.6" fill="#fff"/>
+    <path d="M84 12 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3z" fill="#FF7AB6"/>
+  </symbol>
+  <symbol id="s-bee" viewBox="0 0 100 100">
+    <ellipse cx="42" cy="35" rx="13" ry="17" fill="#EAF6FF" stroke="#2B1A3A" stroke-width="3" transform="rotate(-20 42 35)"/>
+    <ellipse cx="61" cy="33" rx="12" ry="16" fill="#EAF6FF" stroke="#2B1A3A" stroke-width="3" transform="rotate(15 61 33)"/>
+    <path d="M24 58 L10 62 L24 66 Z" fill="#2B1A3A"/>
+    <ellipse cx="52" cy="60" rx="30" ry="22" fill="#FFC93C"/>
+    <g clip-path="url(#bee-clip)" fill="#2B1A3A"><rect x="36" y="30" width="8" height="60"/><rect x="52" y="30" width="8" height="60"/></g>
+    <ellipse cx="52" cy="60" rx="30" ry="22" fill="none" stroke="#2B1A3A" stroke-width="3.5"/>
+    <circle cx="71" cy="55" r="3.5" fill="#2B1A3A"/>
+    <path d="M67 66 q5 4 10 -1" stroke="#2B1A3A" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <circle cx="77" cy="62" r="3" fill="#FF7AB6" opacity=".8"/>
+    <path d="M72 41 q4 -12 12 -14" stroke="#2B1A3A" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="85" cy="27" r="3.5" fill="#2B1A3A"/>
+  </symbol>
+  <symbol id="s-heart" viewBox="0 0 100 100">
+    <path d="M50 86 C20 66 8 48 14 32 C20 16 42 14 50 30 C58 14 80 16 86 32 C92 48 80 66 50 86Z" fill="#FF7AB6" stroke="#C2306F" stroke-width="3"/>
+    <ellipse cx="32" cy="34" rx="7" ry="4" fill="#fff" opacity=".65" transform="rotate(-35 32 34)"/>
+  </symbol>
+  <symbol id="s-crown" viewBox="0 0 100 100">
+    <path d="M14 74 L10 32 L32 50 L50 20 L68 50 L90 32 L86 74 Z" fill="url(#g-gold)" stroke="#C98500" stroke-width="3" stroke-linejoin="round"/>
+    <rect x="14" y="74" width="72" height="9" rx="3" fill="#E29A00" stroke="#C98500" stroke-width="3"/>
+    <circle cx="50" cy="57" r="6" fill="#B9A6FF"/><circle cx="30" cy="63" r="4" fill="#FF7AB6"/><circle cx="70" cy="63" r="4" fill="#7FE0C1"/>
+  </symbol>
+</svg>
+
+<header class="top" id="top">
+  <div class="top-inner">
+    <a class="brand" href="#"><svg class="sticker" viewBox="0 0 100 100" aria-hidden="true"><use href="#s-bee"/></svg>Fleißbienchen</a>
+    <nav aria-label="Seiten-Navigation">
+      <a href="#funktionen">Funktionen</a>
+      <a href="#einblicke">Einblicke</a>
+      <a href="#datenschutz">Datenschutz</a>
+    </nav>
+    <!-- APP-STORE-LINK: Platzhalter, durch die echte App-Store-Adresse ersetzen -->
+    <a class="store compact" href="https://apps.apple.com/de/app/idPLATZHALTER" aria-label="Fleißbienchen im App Store laden">
+      <svg class="sticker" viewBox="0 0 100 100" aria-hidden="true"><use href="#s-star"/></svg>
+      <span><small>Laden im</small><b>App Store</b></span>
+    </a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="hero">
+    <div>
+      <div class="eyebrow">To-do-App fürs iPhone · gemacht für ADHS-Brains</div>
+      <h1 style="margin-top:12px">Die To-do-App, die dich <em>feiert</em>.</h1>
+      <p class="lead">In drei Sekunden eintragen, beim Abhaken einen Sticker kassieren und nie ein schlechtes Gewissen bekommen. Was liegen bleibt, ist einfach morgen noch da.</p>
+      <div class="cta-row">
+        <!-- APP-STORE-LINK: Platzhalter, durch die echte App-Store-Adresse ersetzen -->
+        <a class="store" href="https://apps.apple.com/de/app/idPLATZHALTER" aria-label="Fleißbienchen im App Store laden">
+          <svg class="sticker" viewBox="0 0 100 100" aria-hidden="true"><use href="#s-star"/></svg>
+          <span><small>Laden im</small><b>App Store</b></span>
+        </a>
+        <div class="facts"><span>ohne Konto</span><span>ohne Werbung</span><span>Daten bleiben auf dem iPhone</span></div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <svg class="sticker lg float f1" viewBox="0 0 100 100" aria-hidden="true"><use href="#s-bee"/></svg>
+      <svg class="sticker float f2" viewBox="0 0 100 100" aria-hidden="true"><use href="#s-heart"/></svg>
+      <svg class="sticker float f3" viewBox="0 0 100 100" aria-hidden="true"><use href="#s-crown"/></svg>
+      <div>
+        <div class="phone" id="demo" role="group" aria-label="Ausprobieren: Aufgaben antippen zum Abhaken">
+          <div class="ph-top"><span class="ph-date" id="demo-date">Heute</span><span class="counter"><svg class="sticker sm" viewBox="0 0 100 100" aria-hidden="true"><use href="#s-star"/></svg><span id="demo-count">37</span></span></div>
+          <div class="ph-hello">Hey du ✨</div>
+          <div class="add"><span class="typed">morgen 17 Uhr Apotheke</span><span class="plus" aria-hidden="true">+</span></div>
+          <div class="chips"><span class="chip">📅 morgen</span><span class="chip">🔔 17:00</span></div>
+          <div class="tasks">
+            <button class="task" type="button"><span class="box"></span><span class="t">Oma zurückrufen<span class="sub">🔔 heute, 17:00</span></span></button>
+            <button class="task" type="button"><span class="box"></span><span class="t">Wäsche anschmeißen</span></button>
+            <button class="task" type="button"><span class="box"></span><span class="t">Müll rausbringen<span class="sub">🔁 jeden Montag</span></span></button>
+          </div>
+          <div class="done-row"><span id="demo-done">Heute schon 3 erledigt</span>
+            <svg class="sticker" viewBox="0 0 100 100" style="margin-left:4px" aria-hidden="true"><use href="#s-bee"/></svg><svg class="sticker" viewBox="0 0 100 100" aria-hidden="true"><use href="#s-star"/></svg><svg class="sticker" viewBox="0 0 100 100" aria-hidden="true"><use href="#s-heart"/></svg>
+          </div>
+          <div class="ph-cta">⚡ Power-Runde · 15 Min</div>
+          <div class="toast" id="demo-toast" role="status" aria-live="polite" hidden></div>
+        </div>
+        <p class="try-hint">↑ tipp eine Aufgabe an</p>
+      </div>
+      <span class="stamp-note" aria-hidden="true">Super gemacht!</span>
+    </div>
+  </div>
+
+  <section class="narrow" aria-labelledby="h-promise">
+    <h2 id="h-promise" class="eyebrow" style="font-size:.8rem;margin-bottom:12px">Das Versprechen</h2>
+    <p class="promise">Eintragen geht <em>schneller als vergessen</em>. Abhaken fühlt sich an wie ein <em>Goldstern vom Lieblingslehrer</em>. Und was liegen bleibt, ist <em>einfach noch da</em>, ohne Vorwurf.</p>
+    <div class="nos">
+      <div class="no"><b>Nichts wird überfällig</b><p>Unerledigtes wandert still nach „Heute“, nach 7 Tagen leise ins „Irgendwann“.</p></div>
+      <div class="no"><b>Keine Streaks</b><p>Es gibt keine Serie, die reißen kann, und keine Quote. Gezählt wird nur, was geschafft ist.</p></div>
+      <div class="no"><b>Kein Rot</b><p>Nirgends. Lob steht in Lila oder Gold, nie im Rotstift.</p></div>
+    </div>
+  </section>
+
+  <section id="funktionen" aria-labelledby="h-funktionen">
+    <div class="sec-head center">
+      <div class="eyebrow">Funktionen</div>
+      <h2 id="h-funktionen">So wenig Struktur wie möglich.<br>So viel Belohnung wie nötig.</h2>
+    </div>
+    <div class="features">
+      <article class="feat">
+        <div class="ico i-lilac" aria-hidden="true">⌨️</div>
+        <h3>In drei Sekunden eingetragen</h3>
+        <p>Ein Feld, Enter, fertig. Datum und Uhrzeit tippst du einfach mit: <code>morgen 17 Uhr</code>, <code>Freitag</code>, <code>heute Abend</code>.</p>
+      </article>
+      <article class="feat">
+        <div class="ico i-honey" aria-hidden="true"><svg class="sticker" viewBox="0 0 100 100"><use href="#s-star"/></svg></div>
+        <h3>Abhaken ist der Höhepunkt</h3>
+        <p>Zufälliger Sticker, ein Spruch passend zur Aufgabe, Konfetti, Vibration und ein kleines Pling. Ab und zu ein seltener Glitzerstern.</p>
+      </article>
+      <article class="feat">
+        <div class="ico i-pink" aria-hidden="true">📒</div>
+        <h3>Dein Stickerheft</h3>
+        <p>Jede Woche eine neue Seite voller Sticker. Ein Blick reicht, und du siehst, was du alles geschafft hast.</p>
+      </article>
+      <article class="feat">
+        <div class="ico i-honey" aria-hidden="true">⚡</div>
+        <h3>Power-Runde</h3>
+        <p>15 oder 20 Minuten mit großem Timer gegen das Aufschieben. Beenden heißt „Fertig für jetzt“, nie „Abbrechen“.</p>
+      </article>
+      <article class="feat">
+        <div class="ico i-pink" aria-hidden="true">🐈</div>
+        <h3>Jubel-GIFs</h3>
+        <p>Bei jeder 5. erledigten Aufgabe feiern dich Katzen oder Dragqueens. Gezählt wird über alle Tage, nichts geht verloren.</p>
+      </article>
+      <article class="feat">
+        <div class="ico i-lilac" aria-hidden="true">🔔</div>
+        <h3>Erinnerungen, die nicht nerven</h3>
+        <p>Wechselnde Texte statt immer derselben Meldung. Direkt in der Mitteilung: „Erledigt“, „In 1 Stunde“, „Heute Abend“ oder „Morgen“.</p>
+      </article>
+      <article class="feat">
+        <div class="ico i-mint" aria-hidden="true">🔁</div>
+        <h3>Wiederkehrendes</h3>
+        <p>Täglich, werktags, wöchentlich, monatlich oder an festen Wochentagen. Geht auch per Text: <code>jeden Montag Müll</code>.</p>
+      </article>
+      <article class="feat">
+        <div class="ico i-lilac" aria-hidden="true">🎙️</div>
+        <h3>Einfach diktieren</h3>
+        <p>Mikro antippen oder „Aufgabe diktieren“ über Siri, Kurzbefehle, Kontrollzentrum oder Action Button. Erkannt wird direkt auf dem iPhone.</p>
+      </article>
+      <article class="feat">
+        <div class="ico i-mint" aria-hidden="true">🌙</div>
+        <h3>Abendrückblick</h3>
+        <p>Um 20 Uhr die Zahl des Tages, mit Superlativen je nach Menge. An Tagen ohne Erledigtes kommt gar nichts.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="einblicke" aria-labelledby="h-einblicke">
+    <div class="sec-head center">
+      <div class="eyebrow">Einblicke</div>
+      <h2 id="h-einblicke">Kleine Momente, die sich groß anfühlen</h2>
+    </div>
+    <div class="screens">
+      <div class="screen-item">
+        <div class="phone celebrate" aria-hidden="true">
+          <div class="confetti">
+            <i style="left:14%;top:12%;background:#FF7AB6;rotate:20deg"></i><i style="left:30%;top:7%;background:#FFC93C;rotate:-30deg"></i><i style="left:70%;top:10%;background:#7FE0C1;rotate:40deg"></i><i style="left:84%;top:20%;background:#B9A6FF;rotate:-10deg"></i><i style="left:10%;top:30%;background:#B9A6FF;rotate:60deg"></i><i style="left:88%;top:38%;background:#FF7AB6;rotate:15deg"></i><i style="left:20%;top:72%;background:#FFC93C;rotate:-45deg"></i><i style="left:78%;top:70%;background:#7FE0C1;rotate:30deg"></i>
+          </div>
+          <svg class="sticker big" viewBox="0 0 100 100"><use href="#s-star"/></svg>
+          <h4>Slay, Queen! 👑</h4>
+          <p class="line2">Die Wäsche dreht sich, du strahlst. 🫧</p>
+          <span class="plus1">+1 Goldstern</span>
+          <span class="tap">Tippen zum Weitermachen</span>
+        </div>
+        <p class="screen-cap"><b>Der Abhak-Moment</b>Sticker und Spruch kommen sofort. Nach 1,5 Sekunden ist die Feier von allein wieder weg.</p>
+      </div>
+
+      <div class="screen-item">
+        <div class="phone" aria-hidden="true">
+          <div class="ph-top"><span class="ph-date">Power-Runde</span><span class="counter">🏆 Rekord 6</span></div>
+          <div class="timer">
+            <svg viewBox="0 0 120 120" width="150" height="150"><circle cx="60" cy="60" r="52" fill="none" stroke="var(--line)" stroke-width="10"/><circle cx="60" cy="60" r="52" fill="none" stroke="var(--honey)" stroke-width="10" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="71.9"/></svg>
+            <div style="text-align:center"><div class="tt">11:42</div><div class="tl">noch übrig</div></div>
+          </div>
+          <div class="score"><div><span>geschafft</span><b>4</b></div><div style="text-align:right"><span>bis zum Rekord</span><b>noch 3</b></div></div>
+          <div class="tasks">
+            <div class="task done"><span class="box"></span><span class="t">Spülmaschine ausräumen</span></div>
+            <div class="task"><span class="box"></span><span class="t">Paket zur Post bringen</span></div>
+            <div class="task"><span class="box"></span><span class="t">Zahnarzt-Termin machen</span></div>
+          </div>
+          <div class="ph-cta" style="background:var(--card);color:var(--ink);border:1px solid var(--line)">Fertig für jetzt</div>
+        </div>
+        <p class="screen-cap"><b>Power-Runde</b>Alle offenen Aufgaben der Woche und ein großer Timer. Fällt der Rekord, gibt es eine Krone.</p>
+      </div>
+
+      <div class="screen-item">
+        <div class="phone lock" aria-hidden="true">
+          <div class="clock">20:00</div>
+          <div class="ldate">Montag</div>
+          <div class="notif"><span class="app"><svg class="sticker" viewBox="0 0 100 100"><use href="#s-bee"/></svg></span><div><b>Fleißbienchen <span>jetzt</span></b><p>Heute hast du 5 Aufgaben geschafft, wow! 🤩</p></div></div>
+          <div class="book"><div class="bt">Dein Stickerheft heute</div><div class="row">
+            <svg class="sticker" viewBox="0 0 100 100" style="rotate:-8deg"><use href="#s-bee"/></svg><svg class="sticker" viewBox="0 0 100 100" style="rotate:6deg"><use href="#s-star"/></svg><svg class="sticker" viewBox="0 0 100 100"><use href="#s-heart"/></svg><svg class="sticker" viewBox="0 0 100 100" style="rotate:-4deg"><use href="#s-crown"/></svg><svg class="sticker" viewBox="0 0 100 100" style="rotate:10deg"><use href="#s-glitter"/></svg>
+          </div></div>
+        </div>
+        <p class="screen-cap"><b>Abendrückblick</b>Eine Nachricht am Abend mit der Zahl des Tages. Mehr nicht.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="narrow" aria-labelledby="h-ton">
+    <div class="sec-head center">
+      <div class="eyebrow">Ton</div>
+      <h2 id="h-ton">Spricht wie deine beste Freundin</h2>
+      <p class="lead">Hype statt Hinweis. Erfolge werden laut kommentiert, Lücken gar nicht.</p>
+    </div>
+    <div class="tone" role="table" aria-label="Wie andere Apps reden und wie Fleißbienchen redet">
+      <div class="th" role="columnheader">Andere Apps</div><div class="th" role="columnheader">Fleißbienchen</div>
+      <div role="cell"><s>„Überfällig: 3 Aufgaben“</s></div><div role="cell" class="yes">Die Aufgaben stehen einfach wieder in „Heute“.</div>
+      <div role="cell"><s>„2 von 9 erledigt“</s></div><div role="cell" class="yes">„Heute schon 2 erledigt 🐝“</div>
+      <div role="cell"><s>„Serie verloren!“</s></div><div role="cell" class="yes">Gibt es nicht.</div>
+      <div role="cell"><s>„Timer abgebrochen“</s></div><div role="cell" class="yes">„Fertig für jetzt“</div>
+    </div>
+    <div class="cheers" aria-label="Beispiele für Sprüche beim Abhaken">
+      <span class="cheer">Slay, Queen! 👑</span><span class="cheer">Bienchen verdient! 🐝</span><span class="cheer">Mother is mothering. 💅</span><span class="cheer">Zack, weg damit! ✨</span><span class="cheer">Ein Ding weniger im Kopf. 🧠💖</span><span class="cheer">Dein Zukunfts-Ich sagt Danke. 💌</span><span class="cheer">Telefon-Boss-Level erreicht. 📞</span><span class="cheer">Wer bist du, Beyoncé? 🐝👑</span>
+    </div>
+  </section>
+
+  <section id="datenschutz" aria-label="Reizarm und privat">
+    <div class="split">
+      <div class="panel calm">
+        <div class="eyebrow" style="color:var(--mint)">Reizarm, wenn nötig</div>
+        <h2>Du bestimmst, wie laut es wird</h2>
+        <ul class="checklist">
+          <li>Sound, Vibration und Jubel-GIFs einzeln abschaltbar</li>
+          <li>„Bewegung reduzieren“ wird respektiert</li>
+          <li>Dunkelmodus und große Schrift</li>
+          <li>Feier jederzeit wegtippbar</li>
+        </ul>
+      </div>
+      <div class="panel private">
+        <div class="eyebrow">Privat</div>
+        <h2>Deine Aufgaben gehören dir</h2>
+        <ul class="checklist">
+          <li>Alles bleibt auf deinem iPhone</li>
+          <li>Kein Konto, kein Server, kein Tracking</li>
+          <li>Diktieren wird auf dem Gerät erkannt</li>
+          <li>Keine Werbung, kein Verkauf deiner Daten</li>
+        </ul>
+        <a class="more" href="datenschutz.html">Datenschutzerklärung lesen →</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="final">
+    <div class="stickers" aria-hidden="true">
+      <svg class="sticker" viewBox="0 0 100 100"><use href="#s-bee"/></svg><svg class="sticker" viewBox="0 0 100 100"><use href="#s-star"/></svg><svg class="sticker" viewBox="0 0 100 100"><use href="#s-heart"/></svg><svg class="sticker" viewBox="0 0 100 100"><use href="#s-crown"/></svg><svg class="sticker" viewBox="0 0 100 100"><use href="#s-glitter"/></svg>
+    </div>
+    <h2>Bereit für deinen ersten Goldstern?</h2>
+    <p>Fleißbienchen gibt es fürs iPhone. Eintragen, abhaken, feiern lassen.</p>
+    <!-- APP-STORE-LINK: Platzhalter, durch die echte App-Store-Adresse ersetzen -->
+    <a class="store" href="https://apps.apple.com/de/app/idPLATZHALTER" aria-label="Fleißbienchen im App Store laden">
+      <svg class="sticker" viewBox="0 0 100 100" aria-hidden="true"><use href="#s-star"/></svg>
+      <span><small>Laden im</small><b>App Store</b></span>
+    </a>
+  </div>
+</main>
+
+<footer>
+  <span>Fleißbienchen 🐝 · Kein Stress, nur Sticker.</span>
+  <nav aria-label="Rechtliches">
+    <a href="datenschutz.html">Datenschutz</a>
+    <a href="impressum.html">Impressum</a>
+    <a href="mailto:fleissbienchen@protonmail.com">Kontakt</a>
+  </nav>
+</footer>
+
+<script>
+  // Kleine Demo: Aufgaben im Telefon antippen. Keine Daten, keine Anfragen, nichts wird gespeichert.
+  (function () {
+    var cheers = ["Slay, Queen! 👑", "Bienchen verdient! 🐝", "Zack, weg damit! ✨", "Mother is mothering. 💅", "Iconic. 💖", "Hauptfigur-Energie! 🎬"];
+    var special = { "Wäsche anschmeißen": "Wäsche-Queen. 👑🧺", "Müll rausbringen": "Tschüss, Müll! 👋", "Oma zurückrufen": "Angerufen! Mutig. 📞💪" };
+    var stickers = [["s-bee", "Fleißbienchen"], ["s-star", "Goldstern"], ["s-heart", "Herz"], ["s-crown", "Krone"]];
+    var count = document.getElementById("demo-count"), done = document.getElementById("demo-done"), toast = document.getElementById("demo-toast");
+    var doneToday = 3, timer;
+    try { document.getElementById("demo-date").textContent = new Date().toLocaleDateString("de-DE", { weekday: "long", day: "numeric", month: "long" }); } catch (e) {}
+
+    document.querySelectorAll("#demo .task").forEach(function (btn) {
+      btn.setAttribute("aria-pressed", "false");
+      btn.addEventListener("click", function () {
+        var isDone = btn.classList.toggle("done");
+        btn.setAttribute("aria-pressed", String(isDone));
+        doneToday += isDone ? 1 : -1;
+        count.textContent = String(Number(count.textContent) + (isDone ? 1 : -1));
+        done.textContent = "Heute schon " + doneToday + " erledigt";
+        if (!isDone) return;
+        var name = btn.querySelector(".t").firstChild.textContent.trim();
+        var pick = Math.random() < 0.08 ? ["s-glitter", "Glitzerstern (selten!)"] : stickers[Math.floor(Math.random() * stickers.length)];
+        var head = special[name] && Math.random() < 0.6 ? special[name] : cheers[Math.floor(Math.random() * cheers.length)];
+        toast.innerHTML = '<svg class="sticker" viewBox="0 0 100 100" aria-hidden="true"><use href="#' + pick[0] + '"/></svg><div>' + head + "<small>+1 " + pick[1] + "</small></div>";
+        toast.hidden = false;
+        toast.classList.remove("pop"); void toast.offsetWidth; toast.classList.add("pop");
+        clearTimeout(timer);
+        timer = setTimeout(function () { toast.hidden = true; }, 1600);
+      });
+    });
+
+    var top = document.getElementById("top");
+    function onScroll() { top.classList.toggle("scrolled", window.scrollY > 8); }
+    window.addEventListener("scroll", onScroll, { passive: true }); onScroll();
+  })();
+</script>
 </body>
 </html>

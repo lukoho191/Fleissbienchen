@@ -40,11 +40,14 @@
   a { color: var(--lilac); text-underline-offset: 3px; overflow-wrap: anywhere; }
   a:focus-visible { outline: 3px solid var(--lilac); outline-offset: 2px; border-radius: 4px; }
   .num { color: var(--honey-ink); font-weight: 800; margin-right: 6px; }
-  footer { color: var(--muted); font-size: .88rem; border-top: 1px solid var(--line); padding-top: 16px; }
+  footer { color: var(--muted); font-size: .88rem; border-top: 1px solid var(--line); padding-top: 16px; display: flex; flex-wrap: wrap; gap: 6px 18px; }
+  footer a { color: var(--muted); font-weight: 700; }
+  .back { font-weight: 700; text-decoration: none; align-self: flex-start; }
 </style>
 </head>
 <body>
 <main>
+  <a class="back" href="./">← Zur Startseite</a>
   <header>
     <svg viewBox="0 0 112 112" aria-hidden="true">
       <g transform="translate(6 6)">
@@ -71,7 +74,7 @@
     </svg>
     <div>
       <h1>Datenschutz bei Fleißbienchen</h1>
-      <p class="meta">Stand: 26. Oktober 2026 · gilt für die iOS-App Fleißbienchen</p>
+      <p class="meta">Stand: 6. November 2026 · gilt für die iOS-App Fleißbienchen und diese Website</p>
     </div>
   </header>
 
@@ -83,7 +86,8 @@
   <section>
     <h2><span class="num">1</span>Verantwortlich</h2>
     <p>Lucas Konnigk-Hoch<br>
-    E-Mail: <a href="mailto:fleissbienchen@protonmail.com">fleissbienchen@protonmail.com</a></p>
+    E-Mail: <a href="mailto:fleissbienchen@protonmail.com">fleissbienchen@protonmail.com</a><br>
+    Postanschrift: siehe <a href="impressum.html">Impressum</a></p>
   </section>
 
   <section>
@@ -104,7 +108,14 @@
   </section>
 
   <section>
-    <h2><span class="num">4</span>Jubel-GIFs von GIPHY</h2>
+    <h2><span class="num">4</span>Aufgaben diktieren</h2>
+    <p>Wenn du das Mikrofon in der App antippst oder „Aufgabe diktieren“ über Kurzbefehle, Kontrollzentrum oder Action Button startest, fragt die App einmal nach Zugriff auf Mikrofon und Spracherkennung.</p>
+    <p>Die Umwandlung von Sprache in Text erledigt iOS direkt auf deinem iPhone. Die App verlangt diese Verarbeitung auf dem Gerät ausdrücklich, deine Aufnahme geht also weder an uns noch an Apple. Gespeichert wird nur der erkannte Text als Aufgabe, die Aufnahme selbst nicht.</p>
+    <p class="note">Du kannst den Zugriff jederzeit unter <b>Einstellungen → Fleißbienchen</b> wieder entziehen. Tippen klappt dann wie gewohnt.</p>
+  </section>
+
+  <section>
+    <h2><span class="num">5</span>Jubel-GIFs von GIPHY</h2>
     <p>Bei jeder 5. erledigten Aufgabe zeigt die App ein animiertes GIF. Es wird kurz vorher oder in diesem Moment von <i>media.giphy.com</i> geladen, einem Dienst der GIPHY, Inc. (USA), die zu Shutterstock gehört.</p>
     <p>Beim Laden erhält GIPHY technisch notwendige Angaben, die bei jedem Abruf aus dem Internet anfallen: deine IP-Adresse, Datum und Uhrzeit, welches GIF abgerufen wurde, sowie allgemeine Angaben zu App, Gerätetyp und iOS-Version. Deine Aufgaben oder andere Inhalte aus der App werden nicht übertragen. Die Daten können dabei in die USA übermittelt werden.</p>
     <p>Rechtsgrundlage ist unser berechtigtes Interesse, dir die gewünschte Belohnungs-Funktion anzuzeigen (Art. 6 Abs. 1 lit. f DSGVO). Wie GIPHY mit den Daten umgeht, steht in der <a href="https://giphy.com/privacy">Datenschutzerklärung von GIPHY</a>.</p>
@@ -112,7 +123,7 @@
   </section>
 
   <section>
-    <h2><span class="num">5</span>App Store und TestFlight</h2>
+    <h2><span class="num">6</span>App Store und TestFlight</h2>
     <p>Die App wird über Apple verteilt. Beim Laden aus dem App Store oder über TestFlight verarbeitet Apple Daten in eigener Verantwortung, siehe die <a href="https://www.apple.com/de/legal/privacy/de-ww/">Datenschutzrichtlinie von Apple</a>.</p>
     <ul>
       <li><b>App Store:</b> Wenn du in iOS zugestimmt hast, Analysedaten mit App-Entwicklern zu teilen, erhalten wir von Apple zusammengefasste Statistiken, etwa Installationen und Abstürze. Daraus können wir keine einzelnen Personen erkennen.</li>
@@ -121,7 +132,14 @@
   </section>
 
   <section>
-    <h2><span class="num">6</span>Was es nicht gibt</h2>
+    <h2><span class="num">7</span>Diese Website</h2>
+    <p>Diese Website liegt bei GitHub Pages, einem Dienst der GitHub, Inc. (USA), die zu Microsoft gehört. Beim Aufruf erhält GitHub technisch notwendige Angaben wie deine IP-Adresse, Datum und Uhrzeit, die aufgerufene Seite sowie Browser und Betriebssystem, und kann sie für Sicherheit und Betrieb kurz protokollieren. Die Daten können dabei in die USA übermittelt werden.</p>
+    <p>Rechtsgrundlage ist unser berechtigtes Interesse, die Website sicher und zuverlässig bereitzustellen (Art. 6 Abs. 1 lit. f DSGVO). Mehr dazu in der <a href="https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement">Datenschutzerklärung von GitHub</a>.</p>
+    <p>Die Website selbst setzt keine Cookies, nutzt keine Analyse-Werkzeuge und lädt keine Schriften oder Skripte von Dritten. Erst wenn du auf einen Link zum App Store tippst, verlässt du sie und landest bei Apple.</p>
+  </section>
+
+  <section>
+    <h2><span class="num">8</span>Was es nicht gibt</h2>
     <ul>
       <li>kein Benutzerkonto und keine Anmeldung,</li>
       <li>keine Analyse- oder Tracking-Werkzeuge, keine Werbung,</li>
@@ -130,22 +148,22 @@
   </section>
 
   <section>
-    <h2><span class="num">7</span>Wenn du uns schreibst</h2>
+    <h2><span class="num">9</span>Wenn du uns schreibst</h2>
     <p>Schickst du uns eine E-Mail, nutzen wir deine Adresse und deine Nachricht nur, um dir zu antworten. Wir löschen sie, wenn das Anliegen erledigt ist und keine gesetzlichen Aufbewahrungspflichten bestehen.</p>
   </section>
 
   <section>
-    <h2><span class="num">8</span>Deine Rechte</h2>
+    <h2><span class="num">10</span>Deine Rechte</h2>
     <p>Du hast das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung, auf Datenübertragbarkeit und auf Widerspruch (Art. 15 bis 21 DSGVO). Schreib dafür einfach an die oben genannte E-Mail-Adresse. Außerdem kannst du dich bei einer Datenschutz-Aufsichtsbehörde beschweren (Art. 77 DSGVO).</p>
     <p>Da die App-Daten nur auf deinem iPhone liegen, betrifft das bei uns vor allem E-Mails und TestFlight-Rückmeldungen.</p>
   </section>
 
   <section>
-    <h2><span class="num">9</span>Änderungen</h2>
+    <h2><span class="num">11</span>Änderungen</h2>
     <p>Wenn sich die App ändert, etwa durch neue Funktionen, passen wir diese Erklärung an. Es gilt die Fassung, die hier veröffentlicht ist.</p>
   </section>
 
-  <footer>Fleißbienchen 🐝 · Kein Stress, nur Sticker.</footer>
+  <footer><span>Fleißbienchen 🐝 · Kein Stress, nur Sticker.</span> <a href="./">Startseite</a> <a href="impressum.html">Impressum</a></footer>
 </main>
 </body>
 </html>
