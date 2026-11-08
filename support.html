@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hilfe &amp; Support · Fleißbienchen</title>
+<meta name="description" content="Hilfe, häufige Fragen und Kontakt zur iOS-App Fleißbienchen.">
+<style>
+  /* Bewusst ohne externe Schriften oder Skripte: die Seite selbst lädt nichts von Dritten. */
+  :root {
+    --paper: #FFF9F3; --card: #FFFFFF; --ink: #2B1A3A; --muted: #6D5E7B; --line: #EEE2EF;
+    --honey: #FFC93C; --honey-ink: #8A5B00; --lilac: #6A55E6; --lilac-soft: #ECE8FF;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #1A1322; --card: #241B2E; --ink: #F5EEF9; --muted: #B6A8C3; --line: #3A2E47;
+      --honey: #FFD050; --honey-ink: #FFD978; --lilac: #A99BFF; --lilac-soft: #2F2850;
+      color-scheme: dark;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font: 17px/1.6 ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    padding: max(20px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) 64px max(16px, env(safe-area-inset-left));
+  }
+  main { max-width: 680px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px; }
+  .back { font-weight: 700; text-decoration: none; display: inline-flex; gap: 6px; align-items: center; }
+  .back svg { width: 30px; height: 30px; }
+  h1 { font-size: 2rem; line-height: 1.15; margin: 0; text-wrap: balance; }
+  h2 { font-size: 1.2rem; margin: 0 0 6px; }
+  p { margin: 0; }
+  section { display: grid; gap: 8px; }
+  a { color: var(--lilac); text-underline-offset: 3px; overflow-wrap: anywhere; }
+  a:focus-visible { outline: 3px solid var(--lilac); outline-offset: 2px; border-radius: 4px; }
+  .lead { color: var(--muted); }
+  .store { display: inline-block; line-height: 0; border-radius: 9px; justify-self: start; }
+  .store:focus-visible { outline: 3px solid var(--lilac); outline-offset: 3px; }
+  .store img { display: block; height: 44px; width: auto; }
+  details { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px 18px; }
+  details[open] { padding-bottom: 16px; }
+  summary { font-weight: 700; cursor: pointer; list-style-position: outside; }
+  details > *:not(summary) { margin-top: 8px; }
+  details ul { margin: 8px 0 0; padding-left: 1.2em; display: grid; gap: 4px; }
+  .faq { display: grid; gap: 10px; }
+  .contact { background: var(--lilac-soft); border-radius: 18px; padding: 18px 20px; display: grid; gap: 8px; }
+  code { font: inherit; background: var(--lilac-soft); color: var(--ink); padding: 1px 6px; border-radius: 6px; white-space: nowrap; }
+  footer { color: var(--muted); font-size: .88rem; border-top: 1px solid var(--line); padding-top: 16px; display: flex; flex-wrap: wrap; gap: 6px 18px; }
+  footer a { color: var(--muted); font-weight: 700; }
+</style>
+</head>
+<body>
+<main>
+  <a class="back" href="./"><svg viewBox="0 0 100 100" aria-hidden="true"><ellipse cx="42" cy="35" rx="13" ry="17" fill="#EAF6FF" stroke="#2B1A3A" stroke-width="3" transform="rotate(-20 42 35)"/><ellipse cx="61" cy="33" rx="12" ry="16" fill="#EAF6FF" stroke="#2B1A3A" stroke-width="3" transform="rotate(15 61 33)"/><path d="M24 58 L10 62 L24 66 Z" fill="#2B1A3A"/><clipPath id="bc"><ellipse cx="52" cy="60" rx="30" ry="22"/></clipPath><ellipse cx="52" cy="60" rx="30" ry="22" fill="#FFC93C"/><g clip-path="url(#bc)" fill="#2B1A3A"><rect x="36" y="30" width="8" height="60"/><rect x="52" y="30" width="8" height="60"/></g><ellipse cx="52" cy="60" rx="30" ry="22" fill="none" stroke="#2B1A3A" stroke-width="3.5"/><circle cx="71" cy="55" r="3.5" fill="#2B1A3A"/></svg>← Fleißbienchen</a>
+
+  <h1>Hilfe &amp; Support</h1>
+  <p class="lead">Hier findest du Antworten auf die häufigsten Fragen. Wenn etwas hakt oder du eine Idee hast, schreib uns einfach.</p>
+  <a class="store" href="https://apps.apple.com/de/app/fleissbienchen/id6827073773"><img src="app-store-badge.svg" alt="Laden im App Store" width="132" height="44"></a>
+
+  <section class="contact">
+    <h2>Kontakt</h2>
+    <p>E-Mail: <a href="mailto:fleissbienchen@protonmail.com?subject=Fle%C3%9Fbienchen%20Support">fleissbienchen@protonmail.com</a></p>
+    <p>Hilfreich sind dein iPhone-Modell, die iOS-Version und kurz, was du gemacht hast, bevor es nicht geklappt hat. Wir antworten in der Regel innerhalb weniger Tage.</p>
+  </section>
+
+  <section>
+    <h2>Häufige Fragen</h2>
+    <div class="faq">
+      <details>
+        <summary>Wie trage ich eine Aufgabe mit Tag und Uhrzeit ein?</summary>
+        <p>Schreib es einfach mit ins Feld „Was steht an?“. Fleißbienchen erkennt zum Beispiel:</p>
+        <ul>
+          <li><code>morgen 17 Uhr Apotheke</code></li>
+          <li><code>Freitag Oma anrufen</code></li>
+          <li><code>heute Abend Wäsche</code></li>
+        </ul>
+        <p>Was erkannt wurde, siehst du direkt unter dem Feld. Tag und Uhrzeit verschwinden aus dem Titel, die Erinnerung ist gesetzt.</p>
+      </details>
+
+      <details>
+        <summary>Wie lege ich wiederkehrende Aufgaben an?</summary>
+        <p>Entweder per Text, etwa <code>jeden Montag Müll</code>, oder über den Wiederholen-Knopf unter dem Eingabefeld. Möglich sind täglich, werktags, wöchentlich, alle 2 Wochen, monatlich oder feste Wochentage. Sobald du eine Aufgabe abhakst, steht die nächste schon bereit.</p>
+      </details>
+
+      <details>
+        <summary>Wo sind meine überfälligen Aufgaben?</summary>
+        <p>Überfällig gibt es bei Fleißbienchen nicht. Was liegen bleibt, wandert still in „Heute“. Nach 7 Tagen rutscht es leise ins „Irgendwann“. Von dort holst du es jederzeit mit „Auf heute holen“ zurück.</p>
+      </details>
+
+      <details>
+        <summary>Meine Erinnerungen kommen nicht an.</summary>
+        <ul>
+          <li>Prüfe unter <b>Einstellungen → Mitteilungen → Fleißbienchen</b>, ob Mitteilungen erlaubt sind.</li>
+          <li>Ein aktiver Fokus, etwa „Nicht stören“ oder „Schlafen“, kann Mitteilungen zurückhalten.</li>
+          <li>In der App unter <b>Einstellungen → Erinnerungen</b> siehst du, ob alles an ist.</li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>Das ist mir zu bunt oder zu laut. Geht das ruhiger?</summary>
+        <p>Ja. In der App unter <b>Einstellungen → Feiern</b> schaltest du Sound, Vibration und Jubel-GIFs einzeln ab. Ist in iOS „Bewegung reduzieren“ an, fällt das Konfetti weg. Jede Feier lässt sich außerdem sofort wegtippen.</p>
+      </details>
+
+      <details>
+        <summary>Wie funktioniert das Diktieren?</summary>
+        <p>Tippe auf das Mikrofon neben dem Eingabefeld und sprich deine Aufgabe ein. Beim ersten Mal fragt die App nach Zugriff auf Mikrofon und Spracherkennung. Die Erkennung passiert direkt auf deinem iPhone.</p>
+        <p>„Aufgabe diktieren“ gibt es auch über Siri, die Kurzbefehle-App und durch langes Drücken auf das App-Icon. Ab iOS 18 kannst du es außerdem ins Kontrollzentrum, auf den Sperrbildschirm oder auf den Action Button legen.</p>
+        <p>Klappt es nicht? Prüfe unter <b>Einstellungen → Fleißbienchen</b>, ob Mikrofon und Spracherkennung erlaubt sind.</p>
+      </details>
+
+      <details>
+        <summary>Was ist die Power-Runde?</summary>
+        <p>Ein großer Timer über 15 oder 20 Minuten mit allen offenen Aufgaben der Woche. Du hakst ab, so viel du schaffst, und beendest mit „Fertig für jetzt“. Schaffst du mehr als je zuvor, gibt es eine Krone ins Stickerheft.</p>
+      </details>
+
+      <details>
+        <summary>Wann kommt der Abendrückblick?</summary>
+        <p>Standardmäßig um 20 Uhr, und nur an Tagen, an denen du etwas erledigt hast. Die Uhrzeit änderst du in der App unter <b>Einstellungen → Abendrückblick</b>.</p>
+      </details>
+
+      <details>
+        <summary>Brauche ich ein Konto? Wo liegen meine Daten?</summary>
+        <p>Kein Konto, keine Anmeldung. Deine Aufgaben und Sticker liegen nur auf deinem iPhone. Mehr dazu in der <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
+      </details>
+
+      <details>
+        <summary>Nehme ich meine Aufgaben auf ein neues iPhone mit?</summary>
+        <p>Ja, wenn du dein neues iPhone aus einem iCloud- oder Computer-Backup einrichtest oder die Daten direkt von deinem alten iPhone überträgst. Eine Synchronisation zwischen mehreren Geräten gibt es nicht.</p>
+      </details>
+
+      <details>
+        <summary>Wie lösche ich alles?</summary>
+        <p>Einzelne Aufgaben löschst du, indem du sie nach links wischst. Wenn du die App vom iPhone entfernst, sind alle Aufgaben, Sticker und Einstellungen weg. Bei uns liegt nichts, was gelöscht werden müsste.</p>
+      </details>
+
+      <details>
+        <summary>Kostet Fleißbienchen etwas?</summary>
+        <p>Den aktuellen Preis siehst du <a href="https://apps.apple.com/de/app/fleissbienchen/id6827073773">im App Store</a>. Es gibt keine Werbung und keine Abos innerhalb der App.</p>
+      </details>
+    </div>
+  </section>
+
+  <footer>
+    <span>Fleißbienchen 🐝</span>
+    <a href="./">Startseite</a>
+    <a href="https://apps.apple.com/de/app/fleissbienchen/id6827073773">App Store</a>
+    <a href="datenschutz.html">Datenschutz</a>
+    <a href="impressum.html">Impressum</a>
+  </footer>
+</main>
+</body>
+</html>
